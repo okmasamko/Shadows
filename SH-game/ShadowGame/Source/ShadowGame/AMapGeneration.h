@@ -2,9 +2,12 @@
 
 #pragma once
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraSystem.h"
 #include "CoreMinimal.h"
 #include "Engine/LevelScriptActor.h"
 #include "AMapGeneration.generated.h"
+
 
 /**
  *
@@ -26,6 +29,8 @@ class SHADOWGAME_API AAMapGeneration : public ALevelScriptActor
 	UPROPERTY(EditAnywhere, Category = "Props") TSubclassOf<AActor> Lamp;
 	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> normalEnemy;
 	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> rangedEnemy;
+	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> tankEnemy;
+	UPROPERTY(EditAnywhere, Category = "Effects") UNiagaraSystem* NiagaraEffect;
 
 
 
@@ -47,5 +52,6 @@ class SHADOWGAME_API AAMapGeneration : public ALevelScriptActor
 	UFUNCTION(BlueprintCallable) void Populate(UPARAM(DisplayName="Actor") TArray<TSubclassOf<AActor>> toSpawn, UPARAM(DisplayName="Threshold") TArray<float> threshold);
 	UFUNCTION(BlueprintCallable) void PlaceLamps();
 	UFUNCTION(BlueprintCallable) void PlaceEnemyCamps();
+	UFUNCTION(BlueprintCallable) void PlaceFireFlyies();
 
 };

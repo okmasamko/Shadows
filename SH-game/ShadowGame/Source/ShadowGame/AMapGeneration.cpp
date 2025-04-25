@@ -10,6 +10,8 @@
 #include "Noise/FastNoiseLite.h"
 #include <stdexcept>  // for std::runtime_error
 #include <exception>  // for std::exception
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraSystem.h"
 
 
 
@@ -155,7 +157,7 @@ void AAMapGeneration::Populate(TArray<TSubclassOf<AActor>> toSpawn, TArray<float
 	{
 		FastNoiseLite Noise;
 		Noise.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
-		Noise.SetFrequency(0.1f);
+		Noise.SetFrequency(0.5f);
 		Noise.SetSeed(FMath::RandRange(0, 1000));
 		noises.Add(Noise);
 
@@ -211,7 +213,7 @@ void AAMapGeneration::PlaceLamps()
     }
 }
 
-//UNFINISHED
+//FINISHED
 void AAMapGeneration::PlaceEnemyCamps()
 {
     for (int value : numbersUsedCode)
@@ -228,9 +230,14 @@ void AAMapGeneration::PlaceEnemyCamps()
             FRotator SpawnRotation = FRotator(0.f, 0.f, 0.f);
 
             TSubclassOf<AActor> currentSpawn = normalEnemy;
-            if (FMath::RandRange(0, 100) > 60) {
+            int chance = FMath::RandRange(0, 100);
+            if (chance > 85) {
+                currentSpawn = tankEnemy;
+            }
+            else if (chance > 50) {
                 currentSpawn = rangedEnemy;
             }
+
 
             GetWorld()->SpawnActor<AActor>(currentSpawn, SpawnLocation, SpawnRotation, SpawnParams);
         }
@@ -238,6 +245,34 @@ void AAMapGeneration::PlaceEnemyCamps()
     }
 }
 
+//UNFINISHED
+void AAMapGeneration::PlaceFireFlyies()
+{
+    for (int value : numbersUsedCode)
+    {
+        TArray<FVector2d> allNumbers = GetAllTypeCode(value);
+
+        int numOf = (allNumbers.Num() / 30) * FMath::RandRange(3, 8);
+        for (int i = 0; i < numOf; i++)
+        {
+            FVector2d position = allNumbers[FMath::RandRange(0, allNumbers.Num() - 1)];
+            FVector worldPosition((position.X - 50) * 190, (position.Y - 50) * 190, 0);
+
+            UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+                GetWorld(),
+                NiagaraEffect,
+                worldPosition,                   // Location
+                FRotator::ZeroRotator,          // Rotation
+                FVector(1.0f),                   // Scale
+                true,                            // AutoDestroy
+                true,                            // AutoActivate
+                ENCPoolMethod::None,
+                true                             // PreCullCheck
+            );
+        }
+
+    }
+}
 
 // HELPERS ---------------------------------------------------------------------------------------
 //FINISHED
