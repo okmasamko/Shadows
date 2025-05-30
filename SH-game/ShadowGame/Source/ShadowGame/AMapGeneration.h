@@ -30,7 +30,9 @@ class SHADOWGAME_API AAMapGeneration : public ALevelScriptActor
 	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> normalEnemy;
 	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> rangedEnemy;
 	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> tankEnemy;
+	UPROPERTY(EditAnywhere, Category = "Enemies") TSubclassOf<AActor> bossEnemy;
 	UPROPERTY(EditAnywhere, Category = "Effects") UNiagaraSystem* NiagaraEffect;
+	UPROPERTY(EditAnywhere, Category = "Props") TSubclassOf<AActor> Chest;
 
 
 
@@ -52,6 +54,8 @@ class SHADOWGAME_API AAMapGeneration : public ALevelScriptActor
 	UFUNCTION(BlueprintCallable) void Populate(UPARAM(DisplayName="Actor") TArray<TSubclassOf<AActor>> toSpawn, UPARAM(DisplayName="Threshold") TArray<float> threshold);
 	UFUNCTION(BlueprintCallable) void PlaceLamps();
 	UFUNCTION(BlueprintCallable) void PlaceEnemyCamps();
+	UFUNCTION(BlueprintCallable) void PlaceBoss();
+	UFUNCTION(BlueprintCallable) void PlaceChests();
 	UFUNCTION(BlueprintCallable) void PlaceFireFlyies();
 
 };

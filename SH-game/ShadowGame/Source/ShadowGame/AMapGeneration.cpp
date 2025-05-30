@@ -245,7 +245,7 @@ void AAMapGeneration::PlaceEnemyCamps()
     }
 }
 
-//UNFINISHED
+//FINISHED
 void AAMapGeneration::PlaceFireFlyies()
 {
     for (int value : numbersUsedCode)
@@ -272,6 +272,46 @@ void AAMapGeneration::PlaceFireFlyies()
         }
 
     }
+}
+
+
+void AAMapGeneration::PlaceChests() {
+    for (int value : numbersUsedCode)
+    {
+		if (FMath::RandRange(0, 100) > 50) {
+			continue;
+		}
+
+        TArray<FVector2d> allNumbers = GetAllTypeCode(value);
+        FVector2d position = allNumbers[FMath::RandRange(0, allNumbers.Num() - 1)];
+
+        FVector SpawnLocation = FVector((position.X - 50) * 190, (position.Y - 50) * 190, 0.f);
+        FActorSpawnParameters SpawnParams;
+        FRotator SpawnRotation = FRotator(0.f, 0.f, 0.f);
+        TSubclassOf<AActor> currentSpawn = Chest;
+
+
+        GetWorld()->SpawnActor<AActor>(currentSpawn, SpawnLocation, SpawnRotation, SpawnParams);
+
+    }
+}
+
+
+void AAMapGeneration::PlaceBoss() {
+
+	int value = numbersUsedCode[FMath::RandRange(0, numbersUsedCode.Num() - 1)];
+
+	TArray<FVector2d> allNumbers = GetAllTypeCode(value);
+
+	FVector2d position = allNumbers[FMath::RandRange(0, allNumbers.Num() - 1)];
+	FVector SpawnLocation = FVector((position.X - 50) * 190, (position.Y - 50) * 190, 10.f);
+	FActorSpawnParameters SpawnParams;
+	FRotator SpawnRotation = FRotator(0.f, 0.f, 0.f);
+
+	TSubclassOf<AActor> currentSpawn = bossEnemy;
+
+
+	GetWorld()->SpawnActor<AActor>(currentSpawn, SpawnLocation, SpawnRotation, SpawnParams);
 }
 
 // HELPERS ---------------------------------------------------------------------------------------
